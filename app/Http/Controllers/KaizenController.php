@@ -2,17 +2,68 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Models\Kaizen;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
 
 class KaizenController extends Controller
 {
     //
     public function index(){
-        $kaizen_items_all = array(
+        $kaizenItemsRandom = $this->pickRandomKaizenItems(8);
+
+        $userId = auth()->id();
+        $kaizen = Kaizen::where('user_id', $userId)->latest()->first();
+        if (!is_null($kaizen)){
+            $point = $kaizen->kaizen_number;
+            $start_date = Carbon::now()->firstOfMonth();
+            $end_date = Carbon::today()->addDay();
+            $point_month = Kaizen::where('user_id', $userId)
+                ->whereBetween('created_at', [$start_date, $end_date])
+                ->sum('kaizen_number');
+
+        }else{
+            $point = 0;
+            $point_month = 0;
+        }
+
+        return view('kaizens.create', [
+            'kaizen_items_random' => $kaizenItemsRandom,
+            'point' => $point,
+            'point_month' => $point_month,
+        ]);
+    }
+
+    public function store(Request $request) {
+
+        $userId = auth()->id();
+        $kaizen = Kaizen::where('user_id', $userId)->latest()->first();
+        
+       
+        if (is_null($kaizen) or \Carbon\Carbon::now()->format("Y-m-d")!=$kaizen->created_at->format("Y-m-d")){
+
+            $formFields = $request->all();
+            $formFields['user_id'] = $userId;
+            $itemsCount = count($formFields['kaizen_items']);
+            $formFields['kaizen_number'] = $itemsCount;
+            $formFields['kaizen_total'] = is_null($kaizen)
+                ? $itemsCount
+                : $kaizen->kaizen_total + $itemsCount;
+                
+            if (array_key_exists("kaizen_items",$formFields)){
+                $formFields["kaizen_items"] = implode(",",$formFields["kaizen_items"]);
+            }
+            
+            Kaizen::create($formFields);
+            return redirect('/kaizen')->with('message', 'Data updated');
+        }else{
+            return redirect('/kaizen')->with('message', '本日のポイントが獲得済みです');
+        }
+    }
+
+    private function kaizenItems(): array
+    {
+        return [
             "01"=>"昼間はなるべく自然光を利用して仕事をします。",
             "02"=>"家の電球はLEDを使っています。",
             "03"=>"使用しない部屋の電気は消します。",
@@ -39,56 +90,26 @@ class KaizenController extends Controller
             "24"=>"暑い季節は、日除けシェイドや植物・緑のカーテン、室内カーテンを設置しています。",
             "25"=>"エアコンと扇風機を併用します。",
             "26"=>"暑い時は薄着、寒い時はたくさん服を着て、エアコン温度を調整します。",
-            "27"=>"夏は避暑地に逃げ、冬は南国に逃げます。"
-        );
-        $key_list = array("01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27");
-        shuffle($key_list);
-        $key_list = array_slice($key_list,0,8);
-        
-        $kaizen_items_random = [];
-        foreach ($key_list as $key){
-               $kaizen_items_random += array($key=>$kaizen_items_all[$key]);
-        }
-
-        $kaizen = Kaizen::where('user_id',auth()->id())->latest()->first();
-        if (!is_null($kaizen)){
-            $point = $kaizen->kaizen_number;
-            $start_date = Carbon::now()->firstOfMonth();
-            $end_date = Carbon::today()->addDay();
-            $point_month = Kaizen::where('user_id',auth()->id())->whereBetween('created_at', [$start_date, $end_date])->sum('kaizen_number');
-
-        }else{
-            $point = 0;
-            $point_month = 0;
-        }
-
-        return view('kaizens.create',['kaizen_items_random' => $kaizen_items_random, 'point' => $point, 'point_month' => $point_month]);
+            "27"=>"夏は避暑地に逃げ、冬は南国に逃げます。",
+        ];
     }
 
-    public function store(Request $request) {
+    private function pickRandomKaizenItems(int $count): array
+    {
+        $items = $this->kaizenItems();
 
-        $kaizen = Kaizen::where('user_id',auth()->id())->latest()->first();
-        
-       
-        if (is_null($kaizen) or \Carbon\Carbon::now()->format("Y-m-d")!=$kaizen->created_at->format("Y-m-d")){
-
-            $formFields = $request->all();
-            $formFields['user_id'] = auth()->id();
-            $formFields['kaizen_number'] = count($formFields["kaizen_items"]);
-            if (is_null($kaizen)){
-                $formFields['kaizen_total'] = count($formFields["kaizen_items"]);
-            }else{
-                $formFields['kaizen_total'] = $kaizen->kaizen_total + count($formFields["kaizen_items"]);
-            }
-                
-            if (array_key_exists("kaizen_items",$formFields)){
-                $formFields["kaizen_items"] = implode(",",$formFields["kaizen_items"]);
-            }
-            
-            Kaizen::create($formFields);
-            return redirect('/kaizen')->with('message', 'Data updated');
-        }else{
-            return redirect('/kaizen')->with('message', '本日のポイントが獲得済みです');
+        if ($count >= count($items)) {
+            return $items;
         }
+
+        $selectedKeys = (array) array_rand($items, $count);
+        shuffle($selectedKeys);
+
+        $randomised = [];
+        foreach ($selectedKeys as $key) {
+            $randomised[$key] = $items[$key];
+        }
+
+        return $randomised;
     }
 }

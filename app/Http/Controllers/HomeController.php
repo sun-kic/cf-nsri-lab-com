@@ -12,34 +12,36 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $carbon = Carbonsum::where('user_id', auth()->id())->latest()->first();
-        $sevendays = Carbon::today()->subDay(7);
-        $carbon_oneweek = Today::where('user_id', auth()->id())->whereDate('activity_date', '>', $sevendays)->get();
-        $carbon_today = Today::where('user_id', auth()->id())->whereDate('activity_date', Carbon::today())->first();
-        $user = User::where('id', auth()->id())->first();
-        $days_count = Today::where('user_id', auth()->id())->count();
-        $works = [];
-        $move = [];
-        $life = [];
-        $foods = [];
-        $days = [];
+        $userId = auth()->id();
+        $carbon = Carbonsum::where('user_id', $userId)->latest()->first();
+        $sevenDaysAgo = Carbon::today()->subDays(7);
 
-        // Convert collection to array and sort
-        $carbon_oneweek_array = $carbon_oneweek->toArray();
-        usort($carbon_oneweek_array, [$this, 'compareActivityDate']);
+        $weeklyEntries = Today::query()
+            ->where('user_id', $userId)
+            ->whereDate('activity_date', '>', $sevenDaysAgo)
+            ->orderBy('activity_date')
+            ->get(['activity_date', 'works_carbon', 'foods_carbon', 'move_carbon', 'life_carbon']);
 
-        foreach ($carbon_oneweek_array as $row) {
-            array_push($works, $row['works_carbon']);
-            array_push($foods, $row['foods_carbon']);
-            array_push($move, $row['move_carbon']);
-            array_push($life, $row['life_carbon']);
-            array_push($days, Carbon::parse($row['activity_date'])->format('m/d'));
-        }
+        $carbonToday = Today::where('user_id', $userId)
+            ->whereDate('activity_date', Carbon::today())
+            ->first();
+
+        $user = User::find($userId);
+        $daysCount = Today::where('user_id', $userId)->count();
+
+        $days = $weeklyEntries
+            ->map(fn ($entry) => Carbon::parse($entry->activity_date)->format('m/d'))
+            ->all();
+
+        $works = $weeklyEntries->pluck('works_carbon')->all();
+        $foods = $weeklyEntries->pluck('foods_carbon')->all();
+        $move = $weeklyEntries->pluck('move_carbon')->all();
+        $life = $weeklyEntries->pluck('life_carbon')->all();
 
         return view('homes.index', [
             'carbon' => $carbon,
-            'days_count' => $days_count,
-            'carbon_today' => $carbon_today,
+            'days_count' => $daysCount,
+            'carbon_today' => $carbonToday,
             'days' => $days,
             'works' => $works,
             'move' => $move,
@@ -47,10 +49,5 @@ class HomeController extends Controller
             'foods' => $foods,
             'user' => $user
         ]);
-    }
-
-    private function compareActivityDate($a, $b)
-    {
-        return strtotime($a['activity_date']) - strtotime($b['activity_date']);
     }
 }
