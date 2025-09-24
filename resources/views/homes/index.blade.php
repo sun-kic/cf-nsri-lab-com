@@ -52,151 +52,394 @@
     @endphp
 
 <section id="mainData">
-    <section class="emissions icon_main">
-        @if (is_null($carbon))
-        <h3><div>0<span>トン</span></div><div class="average">（平均<div>0<span>トン</span></div>）</div>合計</h3>
-        @else
-            <h3>本日合計<div>{{$todays_carbon_sum}}<span>キロ</span></div><div class="average">（平均<div> {{number_format($carbon->accumulated_total_carbon/$days_count,2)}}  <span>キロ</span></div>）</div></h3>
-        @endif
-    </section>
+    <div id="pieChart" style="width: 100%; height: 400px;"></div>
     <section class="myData">
-      <ul>
+      <div style="display: flex; flex-wrap: nowrap; justify-content: space-between; gap: 10px; padding: 20px 0; overflow-x: auto;">
         @if (is_null($carbon))
-            <li><div class="icon_work">ワーク</div><div class="data">0<span>キロ</span></div></li>
-            <li><div class="icon_move">移動</div><div class="data">0<span>キロ</span></div></li>
+            <div style="flex: 1; min-width: 0; text-align: center; background: #f8f9fa; border-radius: 12px; padding: 20px 10px; ">
+                <div style="font-weight: bold; color: #6786B2; margin-bottom: 15px; font-size: 1.1em;">働く</div>
+                <div style="width: 50px; height: 50px; background: #6786B2; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; color: white; font-weight: bold; font-size: 0.9em;">icon</div>
+                <div style="font-size: 1.5em; color: #333; margin-bottom: 8px; font-weight: bold;">0<span style="font-size: 0.8em;">キロ</span></div>
+                <div style="font-size: 0.9em; color: #666;">平均0<span style="font-size: 0.8em;">キロ</span></div>
+            </div>
+            <div style="flex: 1; min-width: 0; text-align: center; background: #f8f9fa; border-radius: 12px; padding: 20px 10px; ">
+                <div style="font-weight: bold; color: #8cc9a3; margin-bottom: 15px; font-size: 1.1em;">移動する</div>
+                <div style="width: 50px; height: 50px; background: #8cc9a3; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; color: white; font-weight: bold; font-size: 0.9em;">icon</div>
+                <div style="font-size: 1.5em; color: #333; margin-bottom: 8px; font-weight: bold;">0<span style="font-size: 0.8em;">キロ</span></div>
+                <div style="font-size: 0.9em; color: #666;">平均0<span style="font-size: 0.8em;">キロ</span></div>
+            </div>
         @else
-            <li><div class="icon_work">ワーク</div><div class="data">本日{{$today_works_carbon}}<span>キロ</span></div><div class="data">平均{{number_format($carbon->accumulated_works_carbon/$days_count,2)}}<span>キロ</span></div></li>
-            <li><div class="icon_move">移動</div><div class="data">本日{{$today_move_carbon}}<span>キロ</span></div><div class="data">平均{{number_format($carbon->accumulated_move_carbon/$days_count,2)}}<span>キロ</span></div></li>
+            <div style="flex: 1; min-width: 0; text-align: center; background: #f8f9fa; border-radius: 12px; padding: 20px 10px; ">
+                <div style="font-weight: bold; color: #6786B2; margin-bottom: 15px; font-size: 1.1em;">働く</div>
+                <div style="width: 50px; height: 50px; background: #6786B2; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; color: white; font-weight: bold; font-size: 0.9em;">icon</div>
+                <div style="font-size: 1.5em; color: #333; margin-bottom: 8px; font-weight: bold;">{{$today_works_carbon}}<span style="font-size: 0.8em;">キロ</span></div>
+                <div style="font-size: 0.9em; color: #666;">平均{{number_format($carbon->accumulated_works_carbon/$days_count,2)}}<span style="font-size: 0.8em;">キロ</span></div>
+            </div>
+            <div style="flex: 1; min-width: 0; text-align: center; background: #f8f9fa; border-radius: 12px; padding: 20px 10px; ">
+                <div style="font-weight: bold; color: #8cc9a3; margin-bottom: 15px; font-size: 1.1em;">移動する</div>
+                <div style="width: 50px; height: 50px; background: #8cc9a3; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; color: white; font-weight: bold; font-size: 0.9em;">icon</div>
+                <div style="font-size: 1.5em; color: #333; margin-bottom: 8px; font-weight: bold;">{{$today_move_carbon}}<span style="font-size: 0.8em;">キロ</span></div>
+                <div style="font-size: 0.9em; color: #666;">平均{{number_format($carbon->accumulated_move_carbon/$days_count,2)}}<span style="font-size: 0.8em;">キロ</span></div>
+            </div>
         @endif
         @if (is_null($carbon))
-            <li><div class="icon_life">ライフ</div><div class="data">0<span>キロ</span></div></li>
-            <li><div class="icon_meal">食事</div><div class="data">0<span>キロ</span></div></li>
+            <div style="flex: 1; min-width: 0; text-align: center; background: #f8f9fa; border-radius: 12px; padding: 20px 10px; ">
+                <div style="font-weight: bold; color: #f2e4a0; margin-bottom: 15px; font-size: 1.1em;">暮らす</div>
+                <div style="width: 50px; height: 50px; background: #f2e4a0; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; color: #333; font-weight: bold; font-size: 0.9em;">icon</div>
+                <div style="font-size: 1.5em; color: #333; margin-bottom: 8px; font-weight: bold;">0<span style="font-size: 0.8em;">キロ</span></div>
+                <div style="font-size: 0.9em; color: #666;">平均0<span style="font-size: 0.8em;">キロ</span></div>
+            </div>
+            <div style="flex: 1; min-width: 0; text-align: center; background: #f8f9fa; border-radius: 12px; padding: 20px 10px; ">
+                <div style="font-weight: bold; color: #f29fc5; margin-bottom: 15px; font-size: 1.1em;">食べる</div>
+                <div style="width: 50px; height: 50px; background: #f29fc5; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; color: white; font-weight: bold; font-size: 0.9em;">icon</div>
+                <div style="font-size: 1.5em; color: #333; margin-bottom: 8px; font-weight: bold;">0<span style="font-size: 0.8em;">キロ</span></div>
+                <div style="font-size: 0.9em; color: #666;">平均0<span style="font-size: 0.8em;">キロ</span></div>
+            </div>
         @else
-            <li><div class="icon_life">ライフ</div><div class="data">本日{{$today_life_carbon}}<span>キロ</span></div><div class="data">平均{{number_format($carbon->accumulated_life_carbon/$days_count,2)}}<span>キロ</span></div></li>
-            <li><div class="icon_meal">食事</div><div class="data">本日{{$today_foods_carbon}}<span>キロ</span></div><div class="data">平均{{number_format($carbon->accumulated_foods_carbon/$days_count,2)}}<span>キロ</span></div></li>
+            <div style="flex: 1; min-width: 0; text-align: center; background: #f8f9fa; border-radius: 12px; padding: 20px 10px; ">
+                <div style="font-weight: bold; color: #f2e4a0; margin-bottom: 15px; font-size: 1.1em;">暮らす</div>
+                <div style="width: 50px; height: 50px; background: #f2e4a0; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; color: #333; font-weight: bold; font-size: 0.9em;">icon</div>
+                <div style="font-size: 1.5em; color: #333; margin-bottom: 8px; font-weight: bold;">{{$today_life_carbon}}<span style="font-size: 0.8em;">キロ</span></div>
+                <div style="font-size: 0.9em; color: #666;">平均{{number_format($carbon->accumulated_life_carbon/$days_count,2)}}<span style="font-size: 0.8em;">キロ</span></div>
+            </div>
+            <div style="flex: 1; min-width: 0; text-align: center; background: #f8f9fa; border-radius: 12px; padding: 20px 10px; ">
+                <div style="font-weight: bold; color: #f29fc5; margin-bottom: 15px; font-size: 1.1em;">食べる</div>
+                <div style="width: 50px; height: 50px; background: #f29fc5; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; color: white; font-weight: bold; font-size: 0.9em;">icon</div>
+                <div style="font-size: 1.5em; color: #333; margin-bottom: 8px; font-weight: bold;">{{$today_foods_carbon}}<span style="font-size: 0.8em;">キロ</span></div>
+                <div style="font-size: 0.9em; color: #666;">平均{{number_format($carbon->accumulated_foods_carbon/$days_count,2)}}<span style="font-size: 0.8em;">キロ</span></div>
+            </div>
         @endif
-      </ul>
+      </div>
     </section>
     </section>
     <section class="overview">
-      @if ($maxes[0] == "work")
-        <h3>あなたは、仕事系人間です。</h3>
-      @endif
-      @if ($maxes[0] == "move")
-        <h3>あなたは、動き回る系人間です。</h3>
-      @endif
-      @if ($maxes[0] == "life")
-        <h3>あなたは、生活第一系人間です。</h3>
-      @endif
-      @if ($maxes[0] == "food")
-        <h3>あなたは、大食い系人間です。</h3>
-      @endif
-        <dl>
-          {{-- <dt>あなたについて</dt>
-          <dd>「　　　　　」</dd>
-          <dt>改善案</dt>
-          <dd>「　　　　　」</dd> --}}
-      </dl>
-      <!--<div class="btnMore">
-        <a href="" rel="noopener noreferrer">内容を詳しく知る</a></div>-->
+      <div class="owl-speech-container">
+        <div class="owl-icon">
+          <img src="/images/owl.png" alt="フクロウ" class="owl-image">
+        </div>
+        <div class="speech-bubble">
+          @if ($maxes[0] == "work")
+            <p>あなたは、<br>仕事系人間です！</p>
+          @endif
+          @if ($maxes[0] == "move")
+            <p>あなたは、<br>動き回る系人間です！</p>
+          @endif
+          @if ($maxes[0] == "life")
+            <p>あなたは、<br>生活第一系人間です！</p>
+          @endif
+          @if ($maxes[0] == "food")
+            <p>あなたは、<br>大食い系人間です！</p>
+          @endif
+        </div>
+      </div>
     </section>
 
-<section class="graphArea">
-      <div id="graph"></div>
-</section>
+    <section class="region-info">
+      <h3>あなたの地域のおすすめ情報</h3>
+      <div id="map" style="width: 100%; height: 400px; border-radius: 10px; margin-top: 15px;"></div>
+    </section>
+
 
 <script type="text/javascript">
-                var dom = document.getElementById('graph');
-                var myChart = echarts.init(dom, null, {
+                // 円グラフの実装
+                var pieDom = document.getElementById('pieChart');
+                var pieChart = echarts.init(pieDom, null, {
                   renderer: 'canvas',
                   useDirtyRect: false
                 });
-                var app = {};
                 
-                var option;
-                let days = @json($days);
-                let works = @json($works);
-                let foods = @json($foods);
-                let life = @json($life);
-                let move = @json($move);
-            
-                option = {
-                  color: ['#6786B2', '#8cc9a3', '#f2e4a0', '#f29fc5'],
-              tooltip: {
-                trigger: 'axis',
-                axisPointer: {
-                  type: 'shadow'
-                }
-              },
-              legend: {},
-              grid: {
-                left: '3%',
-                right: '4%',
-                bottom: '3%',
-                containLabel: true
-              },
-              xAxis: [
-                {
-                  type: 'category',
-                  data: days
-                }
-              ],
-              yAxis: [
-                {
-                  type: 'value'
-                }
-              ],
-              series: [
-                {
-                  name: 'ワーク',
-                  type: 'bar',
-                  stack: 'carbon',
-                  barWidth: 30,
-                  emphasis: {
-                    focus: 'series'
-                  },
-                  data: works
-                },
-                {
-                  name: '移動',
-                  type: 'bar',
-                  stack: 'carbon',
-                  barWidth: 30,
-                  emphasis: {
-                    focus: 'series'
-                  },
-                  data: move
-                },
-                {
-                  name: 'ライフ',
-                  type: 'bar',
-                  stack: 'carbon',
-                  barWidth: 30,
-                  emphasis: {
-                    focus: 'series'
-                  },
-                  data: life
-                },
-                {
-                  name: '食事',
-                  type: 'bar',
-                  stack: 'carbon',
-                  barWidth: 30,
-                  emphasis: {
-                    focus: 'series'
-                  },
-                  data: foods
-                },
+                var pieOption;
+                let todayWorks = @json($today_works_carbon);
+                let todayMove = @json($today_move_carbon);
+                let todayLife = @json($today_life_carbon);
+                let todayFoods = @json($today_foods_carbon);
+                let todaysSum = @json($todays_carbon_sum);
+                let averageTotal = @json($carbon ? number_format($carbon->accumulated_total_carbon/$days_count,2) : 0);
                 
-              ]
-            };
-            
-                if (option && typeof option === 'object') {
-                  myChart.setOption(option);
+                // 円グラフのデータ
+                var pieData = [
+                    {value: todayWorks, name: '働く'},
+                    {value: todayMove, name: '移動する'},
+                    {value: todayLife, name: '暮らす'},
+                    {value: todayFoods, name: '食べる'}
+                ];
+                
+                pieOption = {
+                    color: ['#6786B2', '#8cc9a3', '#f2e4a0', '#f29fc5'],
+                    title: {
+                        text: '今日の合計',
+                        subtext: todaysSum + 'キロ\n平均 ' + averageTotal + 'キロ',
+                        left: 'center',
+                        top: 'center',
+                        textStyle: {
+                            fontSize: 18,
+                            fontWeight: 'bold'
+                        },
+                        subtextStyle: {
+                            fontSize: 12,
+                            color: '#666'
+                        }
+                    },
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: '{a} <br/>{b}: {c}キロ ({d}%)'
+                    },
+                    legend: {
+                        orient: 'horizontal',
+                        bottom: '10%',
+                        left: 'center'
+                    },
+                    series: [
+                        {
+                            name: 'CO2排出量',
+                            type: 'pie',
+                            radius: ['40%', '70%'],
+                            center: ['50%', '45%'],
+                            avoidLabelOverlap: false,
+                            itemStyle: {
+                                borderRadius: 10,
+                                borderColor: '#fff',
+                                borderWidth: 2
+                            },
+                            label: {
+                                show: false,
+                                position: 'center'
+                            },
+                            emphasis: {
+                                label: {
+                                    show: true,
+                                    fontSize: '20',
+                                    fontWeight: 'bold'
+                                }
+                            },
+                            labelLine: {
+                                show: false
+                            },
+                            data: pieData
+                        }
+                    ]
+                };
+                
+                if (pieOption && typeof pieOption === 'object') {
+                    pieChart.setOption(pieOption);
                 }
-            
-                window.addEventListener('resize', myChart.resize);
+                
+                window.addEventListener('resize', pieChart.resize);
+
               </script>
+
+<script>
+// Google Mapの初期化
+function initMap() {
+  // 白馬村の座標
+  const hakuba = { lat: 36.6981, lng: 137.8617 };
+  
+  // マップの作成
+  const map = new google.maps.Map(document.getElementById("map"), {
+    zoom: 13,
+    center: hakuba,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  });
+  
+  // マーカーの追加
+  const marker = new google.maps.Marker({
+    position: hakuba,
+    map: map,
+    title: "白馬村"
+  });
+  
+  // 情報ウィンドウの追加
+  const infoWindow = new google.maps.InfoWindow({
+    content: "<h4>白馬村</h4><p>長野県北安曇郡白馬村</p>"
+  });
+  
+  marker.addListener("click", () => {
+    infoWindow.open(map, marker);
+  });
+}
+
+// Google Maps APIの読み込み
+function loadGoogleMaps() {
+  const script = document.createElement('script');
+  script.src = `https://maps.googleapis.com/maps/api/js?key={{ config('services.google.directions_key') }}&callback=initMap`;
+  script.async = true;
+  script.defer = true;
+  document.head.appendChild(script);
+}
+
+// ページ読み込み後にGoogle Mapsを読み込み
+document.addEventListener('DOMContentLoaded', loadGoogleMaps);
+</script>
+
+<style>
+.owl-speech-container {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 15px;
+  margin: 20px auto;
+  flex-direction: row !important;
+  flex-wrap: nowrap;
+  max-width: 600px;
+  width: 100%;
+}
+
+.owl-icon {
+  flex-shrink: 0;
+  order: 1;
+}
+
+.owl-image {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+}
+
+.speech-bubble {
+  position: relative;
+  background: #d0e2be;
+  border-radius: 15px;
+  padding: 15px 20px;
+  flex: 1;
+  max-width: 300px;
+  order: 2;
+}
+
+.speech-bubble::before {
+  content: '';
+  position: absolute;
+  left: -12px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent !important;
+  border-bottom: 10px solid transparent !important;
+  border-right: 12px solid #d0e2be !important;
+  border-left: none !important;
+}
+
+.speech-bubble p {
+  margin: 0;
+  color: #333;
+  font-size: 1.1em;
+  font-weight: bold;
+  text-align: left;
+  line-height: 1.4;
+}
+
+@media (max-width: 768px) {
+  .owl-speech-container {
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+    padding: 15px;
+    justify-content: center;
+    align-items: center;
+    margin: 20px auto;
+    max-width: 90%;
+  }
+  
+  .owl-image {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .speech-bubble {
+    max-width: 100%;
+    margin-top: 10px;
+  }
+  
+  .speech-bubble::before {
+    left: -12px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    border-top: 10px solid transparent !important;
+    border-bottom: 10px solid transparent !important;
+    border-right: 12px solid #d0e2be !important;
+    border-left: none !important;
+  }
+  
+  .speech-bubble p {
+    font-size: 1em;
+  }
+}
+
+@media (max-width: 480px) {
+  .owl-speech-container {
+    max-width: 95%;
+    padding: 10px;
+  }
+  
+  .owl-image {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .speech-bubble {
+    padding: 12px 15px;
+  }
+  
+  .speech-bubble p {
+    font-size: 0.9em;
+  }
+}
+
+.region-info {
+  margin: 30px 0;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 15px;
+}
+
+.region-info h3 {
+  color: #333;
+  font-size: 1.3em;
+  font-weight: bold;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+#map {
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+@media (max-width: 768px) {
+  .region-info {
+    margin: 20px 0;
+    padding: 15px;
+  }
+  
+  .region-info h3 {
+    font-size: 1.2em;
+  }
+  
+  #map {
+    height: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  .region-info {
+    margin: 15px 0;
+    padding: 10px;
+  }
+  
+  .region-info h3 {
+    font-size: 1.1em;
+  }
+  
+  #map {
+    height: 250px;
+  }
+}
+
+
+</style>
 
              
         </div>

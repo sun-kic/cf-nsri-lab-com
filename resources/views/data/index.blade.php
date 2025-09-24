@@ -49,19 +49,19 @@
             <h4>Daily activity</h4>
             <table class="table table-bordered table-sm">
             <tr>
-                <td>ワーク･オフィス</td>
+                <td>働く･オフィス</td>
                 @foreach ($work_office as $val)
                 <td>{{$val}}時間</td>
                 @endforeach
             </tr>
             <tr>
-                <td>ワーク･在宅勤務</td>
+                <td>働く･在宅勤務</td>
                 @foreach ($work_soho as $val)
                 <td>{{$val}}時間</td>
                 @endforeach
             </tr>
             <tr>
-                <td>ワーク･サードプレイス</td>
+                <td>働く･サードプレイス</td>
                 @foreach ($work_3pl as $val)
                 <td>{{$val}}時間</td>
                 @endforeach
@@ -73,7 +73,7 @@
                 @endforeach
             </tr>
             <tr>
-                <td>移動</td>
+                <td>移動する</td>
                 @foreach ($move as $val)
                 <td>{{$val}}時間</td>
                 @endforeach
@@ -116,7 +116,7 @@
             </table>
         </section>
         <section class="currently">
-            <h4>移動について</h4>
+            <h4>移動するについて</h4>
             <table class="table table-bordered table-sm">
             <tr>
                 <td>階段を利用した回数</td>

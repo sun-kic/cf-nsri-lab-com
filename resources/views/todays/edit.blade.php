@@ -5,10 +5,19 @@
         <div class="MainContents">
       <form action="/today/{{$today->id}}" method="POST" enctype="multipart/form-data">
       <h2>TODAY' Activity</h2>
+      <h3 class="carbon-log-subtitle">カーボンログ</h3>
       <!-- Date input field -->
-      <div class="form-group">
-        <label for="activity_date">日付を選択:</label>
-        <input type="date" id="activity_date" name="activity_date" class="form-control">
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion('dateAccordion')">
+          <span class="accordion-title">1/6. 日付を入力</span>
+          <span class="accordion-icon" id="dateAccordionIcon">▼</span>
+        </div>
+        <div class="accordion-content" id="dateAccordion">
+          <div class="form-group">
+            <label for="activity_date">日付を選択:</label>
+            <input type="date" id="activity_date" name="activity_date" class="form-control">
+          </div>
+        </div>
       </div>
       
       <script>
@@ -20,6 +29,12 @@
         @csrf
         @method('PUT')
            
+        <div class="accordion-item">
+          <div class="accordion-header time-header" onclick="toggleAccordion('timeAccordion')">
+            <span class="accordion-title">2/6. 時間を入力</span>
+            <span class="accordion-icon" id="timeAccordionIcon">▼</span>
+          </div>
+          <div class="accordion-content time-accordion-content" id="timeAccordion">
         <section class="today-works">
                 <div class="scroll">
           <dl>
@@ -27,7 +42,7 @@
                 <dd><div class="time"><span>0</span><span>6</span><span>12</span><span>18</span><span>24</span></div></dd>
                 <dt></dt>
                 <dd><div class="time-line"><span></span><span></span><span></span></div></dd>
-            <dt>ワーク･オフィス</dt>
+            <dt>働く･オフィス</dt>
             <dd class="time-schedule"><div class="btn-group office-work" role="group">
               {{-- @dd(explode(",",$today->work_office)); --}}
                 @for ($i=0;$i<=23;$i++)
@@ -41,7 +56,7 @@
                   <label for="work_office{{$i}}">{{$i}}</label>
                 @endfor
               </div></dd>
-            <dt>ワーク･在宅勤務</dt>
+            <dt>働く･在宅勤務</dt>
             <dd class="time-schedule"><div class="btn-group home-work" role="group">
                 @for ($i=0;$i<=23;$i++)
                 @if ($today->work_soho === "")
@@ -54,7 +69,7 @@
                   <label for="work_soho{{$i}}">{{$i}}</label>
                 @endfor
               </div></dd>
-            <dt>ワーク･サードプレイス</dt>
+            <dt>働く･サードプレイス</dt>
             <dd class="time-schedule"><div class="btn-group three-pl-work" role="group">
                 @for ($i=0;$i<=23;$i++)
                 @if ($today->work_3pl === "")
@@ -80,7 +95,7 @@
                   <label for="life{{$i}}">{{$i}}</label>
                 @endfor
               </div></dd>
-            <dt>移動:</dt>
+            <dt>移動する:</dt>
             <dd class="time-schedule"><div class="btn-group move" role="group">
                 @for ($i=0;$i<=23;$i++)
                 @if ($today->move === "")
@@ -95,6 +110,8 @@
               </div></dd>
           </dl> </div>
         </section>
+          </div>
+        </div>
        
         <section class="office-data">
 		    <h3>仕事の場所について</h3>
@@ -172,7 +189,7 @@
 	</section>
 
     <section class="work-data">
-		<h3>ワークスタイルについて</h3>
+		<h3>働くスタイルについて</h3>
 		<h4 class="question">部屋の電気をどれぐらい時間をつけて仕事をしましたか</h4>
     <div class="row">
       <div class="input-group col">
@@ -287,10 +304,10 @@
 			</div>
 	</section>
     	<section class="transportation">
-		<h3>移動について</h3>
+		<h3>移動するについて</h3>
 		<div class="row">
 			<div class="input-group col">
-				<h4 class="question">建物内は何回移動しましたか？</h4><input type="number" min="0" pattern="\d*" class="form-control" name="move_floor_number" id="move_floor_number" value="{{$today->move_floor_number}}"><label class="input-group-text" for="move_floor_number">回</label>
+				<h4 class="question">建物内は何回移動するしましたか？</h4><input type="number" min="0" pattern="\d*" class="form-control" name="move_floor_number" id="move_floor_number" value="{{$today->move_floor_number}}"><label class="input-group-text" for="move_floor_number">回</label>
 			</div>
 			<div class="switch-button col">
                   <label for="move_walk" class="form-check-label">階段を利用しましたか？</label>
@@ -309,7 +326,7 @@
 		</div>
 		<div class="row">
 		<div class="input-group">
-			<h4 class="question">建物外は何回移動しましたか？</h4><input type="number" min="0" max="4"pattern="\d*" class="form-control" name="move_out_number" id="move_out_number" value="{{$today->move_out_number}}"><label class="input-group-text" for="light_led_soho">回</label>
+			<h4 class="question">建物外は何回移動するしましたか？</h4><input type="number" min="0" max="4"pattern="\d*" class="form-control" name="move_out_number" id="move_out_number" value="{{$today->move_out_number}}"><label class="input-group-text" for="light_led_soho">回</label>
 		</div></div>
 		<div class="input-group">
 			<div class="transportation-col">
@@ -1176,7 +1193,7 @@
   
         </section>
         <section class="life">
-          <h3>ライフについて</h3>
+          <h3>暮らすについて</h3>
           <div class="input-group">
               <span class="input-group-text question">今日は運動していますか？</span>
               <input type="number" pattern="\d*" min="0" class="form-control" name="sports_time" value="{{$today->sports_time}}">
@@ -1416,5 +1433,106 @@ $(function() {
   });
 });
   </script>
+
+<script>
+// アコーディオンの開閉機能
+function toggleAccordion(accordionId) {
+  const content = document.getElementById(accordionId);
+  const icon = document.getElementById(accordionId + 'Icon');
+  
+  if (content.classList.contains('active')) {
+    content.classList.remove('active');
+    icon.classList.remove('rotated');
+  } else {
+    content.classList.add('active');
+    icon.classList.add('rotated');
+  }
+}
+</script>
+
+<style>
+.carbon-log-subtitle {
+  color: #777777;
+  font-size: 1.1em;
+  font-weight: normal;
+  margin: 10px 0 20px 0;
+  text-align: center;
+}
+
+/* アコーディオンメニューのスタイル */
+.accordion-item {
+  margin-bottom: 10px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.accordion-header {
+  background-color: #e9ecef; /* 薄いグレー */
+  color: #333;
+  padding: 15px 20px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.3s ease;
+  text-align: left;
+}
+
+.accordion-header:hover {
+  background-color: #dee2e6;
+}
+
+.accordion-title {
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.accordion-icon {
+  font-size: 0.9em;
+  transition: transform 0.3s ease;
+}
+
+.accordion-icon.rotated {
+  transform: rotate(180deg);
+}
+
+.accordion-content {
+  background-color: #f8f9fa;
+  padding: 20px;
+  display: none;
+  border-top: 1px solid #dee2e6;
+}
+
+.accordion-content.active {
+  display: block;
+}
+
+/* 時間入力アコーディオン専用 */
+.time-header {
+  background-color: #e9ecef;
+  color: #fff; /* 白文字 */
+  text-align: left;
+}
+
+.time-accordion-content {
+  width: 100%; /* コンテナ幅にフィット */
+  margin-left: 0;
+  margin-right: 0;
+  padding: 0 20px 20px; /* ヘッダーの左右20pxに合わせる */
+  box-sizing: border-box;
+}
+
+.time-accordion-content .today-works,
+.time-accordion-content .scroll,
+.time-accordion-content dl {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+
+</style>
   
   </x-layout>
