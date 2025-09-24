@@ -8,7 +8,7 @@
         <h3 class="carbon-log-subtitle">カーボンログ</h3>
         <!-- Date input field -->
         <div class="accordion-item">
-            <div class="accordion-header" onclick="toggleAccordion('dateAccordion')">
+            <div class="accordion-header date-header" onclick="toggleAccordion('dateAccordion')">
                 <span class="accordion-title">1/6. 日付を入力</span>
                 <span class="accordion-icon" id="dateAccordionIcon">▼</span>
             </div>
@@ -80,160 +80,175 @@
         </section>
               </div>
             </div>
-       
-        <section class="office-data">
-		<h3>仕事の場所について</h3>
-		<div class="input-group">
-			<span class="input-group-text question">面積</span> <input type="number" pattern="\d*" min="0" class="form-control" name="office_area"> <span class="input-group-text">m&sup2;</span>
-		</div>
-		<div class="input-group">
-			<span class="input-group-text question">在室人数</span> <input class="form-control" min="0" name="office_person" pattern="\d*" type="number"> <span class="input-group-text">人</span>
-		</div>
-		<div class="input-group">
-			<label class="input-group-text question" for="three_pl_type">サードプレイスはどんな場所ですか</label>
-			<div class="radio-inline-group">
-				<div class="three-parts">
-					<input id="three_pl_type0" name="three_pl_type" type="radio" value="サードプレイスに行っていません"> <label for="three_pl_type0">サードプレイスに行っていません</label>
-				</div>
-				<div class="three-parts">
-					<input id="three_pl_type1" name="three_pl_type" type="radio" value="自宅以外の住宅"> <label for="three_pl_type1">自宅以外の住宅</label>
-				</div>
-				<div class="three-parts">
-					<input id="three_pl_type2" name="three_pl_type" type="radio" value="喫茶店やシェアオフィス"> <label for="three_pl_type2">喫茶店やシェアオフィス</label>
-				</div>
-			</div>
-			<div class="input-group">
-				<label class="input-group-text question" for="three_pl_type">サードプレイスはお住まいと同じ都市ですか？</label>
-				<select class="form-select" id="select_box" name="three_pl_city">
-					<option selected value="">
-					</option>
-					<option value="同じ都市です">
-						同じ都市です
-					</option>
-					<option value="近隣の町">
-						近隣の町
-					</option>
-					<option value="近い観光地">
-						近い観光地
-					</option>
-					<option value="遠い観光地">
-						遠い観光地
-					</option>
-					<option value="海外">
-						海外
-					</option>
-					<option value="その他">
-						その他
-					</option>
-				</select>
-			</div>
-
-            <div class="input-group">
-                <h4 class="question">再エネやグリーン電力などCO2フリーの電力を使っていますか？</h4>
-                <div class="row">
-                    <div class="switch-button col">
-                        <div class="button">
-                            <input id="green_power" name="green_power" type="checkbox" value="1">
-                            <div class="knobs">
-                                <span>いいえ</span>
-                            </div>
-                            <div class="layer"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-	</section>
-
-    <section class="work-data">
-		<h3>オフィスでの活動について</h3>
-		<h4 class="question">部屋の電気をどれぐらい時間をつけて仕事をしましたか</h4>
         
-        <div class="row">
-		<div class="input-group col">
-			<label class="input-group-text" for="light_time_office">オフィス</label> <input class="form-control" id="light_time_office" max="24" min="0" name="light_time_office" pattern="\d*" type="number"> <span class="input-group-text">時間</span>
-        </div>
-			<div class="switch-button col">
-				<label class="input-group-text" for="light_led_office">LEDになっていますか？</label>
-				<div class="button">
-					<input id="light_led_office" name="light_led_office" type="checkbox" value="1">
-					<div class="knobs">
-						<span>いいえ</span>
-					</div>
-					<div class="layer"></div>
-				</div>
-			</div>
-            </div>
-
-            <div class="row">
-			<div class="input-group col">
-				<label class="input-group-text" for="light_time_soho">在宅勤務</label> <input class="form-control" id="light_time_soho" max="24" min="0" name="light_time_soho" pattern="\d*" type="number"> <span class="input-group-text">時間</span>
-            </div>
-				<div class="switch-button col">
-					<label class="input-group-text" for="light_led_soho">LEDになっていますか？</label>
-					<div class="button">
-						<input id="light_led_soho" name="light_led_soho" type="checkbox" value="1">
-						<div class="knobs">
-							<span>いいえ</span>
-						</div>
-						<div class="layer"></div>
-					</div>
-				</div>
-			</div>
-
-            <div class="row">
-			<div class="input-group col">
-				<label class="input-group-text" for="light_time_3pl">サードプレイス（その他の場所）</label> <input class="form-control" id="light_time_3pl" max="24" min="0" name="light_time_3pl" pattern="\d*" type="number"> <span class="input-group-text">時間</span>
-            </div>
-				<div class="switch-button col">
-					<label class="input-group-text" for="light_led_3pl">LEDになっていますか？</label>
-					<div class="button">
-						<input id="light_led_3pl" name="light_led_3pl" type="checkbox" value="1">
-						<div class="knobs">
-							<span>いいえ</span>
-						</div>
-						<div class="layer"></div>
-					</div>
-				</div>
-			</div>
-			<h4 class="question">仕事中空調をどれぐらいつけていますか？</h4>
-            <div class="row">
+        <div class="accordion-item">
+          <div class="accordion-header work-header" onclick="toggleAccordion('workAccordion')">
+            <span class="accordion-title">3/6. 「働く」について</span>
+            <span class="accordion-icon" id="workAccordionIcon">▼</span>
+          </div>
+          <div class="accordion-content" id="workAccordion">
+            <section class="office-data">
+			<h3>仕事の場所について</h3>
 			<div class="input-group">
-				<label class="input-group-text" for="ac_time_office">オフィス</label> <input class="form-control" id="ac_time_office" max="24" min="0" name="ac_time_office" pattern="\d*" type="number"> <span class="input-group-text">時間</span>
-			</div>
-        </div>
-            <div class="row">
-			<div class="input-group">
-				<label class="input-group-text" for="ac_time_soho">在宅勤務</label> <input class="form-control" id="ac_time_soho" max="24" min="0" name="ac_time_soho" pattern="\d*" type="number"> <label class="input-group-text" for="ac_time_soho">時間</label>
-			</div>
-        </div>
-            <div class="row">
-			<div class="input-group">
-				<label class="input-group-text" for="ac_time_3pl">サードプレイス</label> <input class="form-control" id="ac_time_3pl" max="24" min="0" name="ac_time_3pl" pattern="\d*" type="number"> <label class="input-group-text" for="ac_time_3pl">時間</label>
-			</div>
-            </div>
-			<div class="input-group">
-				<h4 class="question">何枚、プリントアウトやコピーを取りましたか？</h4><input class="form-control" id="printed_paper" name="printed_paper" min="0" pattern="\d*" type="number"> <label class="input-group-text" for="printed_paper">枚</label>
+				<span class="input-group-text question">面積</span> <input type="number" pattern="\d*" min="0" class="form-control" name="office_area"> <span class="input-group-text">m&sup2;</span>
 			</div>
 			<div class="input-group">
-				<h4 class="question">パソコン作業しましたか？</h4><input class="form-control" id="pc_time" name="pc_time" max="24" min="0" pattern="\d*" type="number"><label class="input-group-text" for="pc_time">時間</label>
+				<span class="input-group-text question">在室人数</span> <input class="form-control" min="0" name="office_person" pattern="\d*" type="number"> <span class="input-group-text">人</span>
 			</div>
 			<div class="input-group">
-				<h4 class="question">飲み物は、「マイカップ派」ですか？</h4>
+				<label class="input-group-text question" for="three_pl_type">サードプレイスはどんな場所ですか</label>
 				<div class="radio-inline-group">
 					<div class="three-parts">
-						<input id="drink_cup_type1" name="drink_cup_type" type="radio" value="マイカップ派"><label for="drink_cup_type1">マイカップ派</label>
+						<input id="three_pl_type0" name="three_pl_type" type="radio" value="サードプレイスに行っていません"> <label for="three_pl_type0">サードプレイスに行っていません</label>
 					</div>
 					<div class="three-parts">
-						<input id="drink_cup_type2" name="drink_cup_type" type="radio" value="紙コップ派"><label for="drink_cup_type2">紙コップ派</label>
+						<input id="three_pl_type1" name="three_pl_type" type="radio" value="自宅以外の住宅"> <label for="three_pl_type1">自宅以外の住宅</label>
 					</div>
 					<div class="three-parts">
-						<input id="drink_cup_type3" name="drink_cup_type" type="radio" value="ペットボトルや缶購入"><label for="drink_cup_type3">ペットボトルや缶購入</label>
+						<input id="three_pl_type2" name="three_pl_type" type="radio" value="喫茶店やシェアオフィス"> <label for="three_pl_type2">喫茶店やシェアオフィス</label>
 					</div>
 				</div>
+				<div class="input-group">
+					<label class="input-group-text question" for="three_pl_type">サードプレイスはお住まいと同じ都市ですか？</label>
+					<select class="form-select" id="select_box" name="three_pl_city">
+						<option selected value="">
+						</option>
+						<option value="同じ都市です">
+							同じ都市です
+						</option>
+						<option value="近隣の町">
+							近隣の町
+						</option>
+						<option value="近い観光地">
+							近い観光地
+						</option>
+						<option value="遠い観光地">
+							遠い観光地
+						</option>
+						<option value="海外">
+							海外
+						</option>
+						<option value="その他">
+							その他
+						</option>
+					</select>
+				</div>
+
+				<div class="input-group">
+					<h4 class="question">再エネやグリーン電力などCO2フリーの電力を使っていますか？</h4>
+					<div class="row">
+						<div class="switch-button col">
+							<div class="button">
+								<input id="green_power" name="green_power" type="checkbox" value="1">
+								<div class="knobs">
+									<span>いいえ</span>
+								</div>
+								<div class="layer"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				</div>
+		</section>
+
+		<section class="work-data">
+			<h3>オフィスでの活動について</h3>
+			<h4 class="question">部屋の電気をどれぐらい時間をつけて仕事をしましたか</h4>
+			
+			<div class="row">
+			<div class="input-group col">
+				<label class="input-group-text" for="light_time_office">オフィス</label> <input class="form-control" id="light_time_office" max="24" min="0" name="light_time_office" pattern="\d*" type="number"> <span class="input-group-text">時間</span>
 			</div>
-	</section>
+				<div class="switch-button col">
+					<label class="input-group-text" for="light_led_office">LEDになっていますか？</label>
+					<div class="button">
+						<input id="light_led_office" name="light_led_office" type="checkbox" value="1">
+						<div class="knobs">
+							<span>いいえ</span>
+						</div>
+						<div class="layer"></div>
+					</div>
+				</div>
+				</div>
+			
+				<div class="row">
+				<div class="input-group col">
+					<label class="input-group-text" for="light_time_soho">在宅勤務</label> <input class="form-control" id="light_time_soho" max="24" min="0" name="light_time_soho" pattern="\d*" type="number"> <span class="input-group-text">時間</span>
+				</div>
+					<div class="switch-button col">
+						<label class="input-group-text" for="light_led_soho">LEDになっていますか？</label>
+						<div class="button">
+							<input id="light_led_soho" name="light_led_soho" type="checkbox" value="1">
+							<div class="knobs">
+								<span>いいえ</span>
+							</div>
+							<div class="layer"></div>
+						</div>
+					</div>
+				</div>
+			
+				<div class="row">
+				<div class="input-group col">
+					<label class="input-group-text" for="light_time_3pl">サードプレイス（その他の場所）</label> <input class="form-control" id="light_time_3pl" max="24" min="0" name="light_time_3pl" pattern="\d*" type="number"> <span class="input-group-text">時間</span>
+				</div>
+					<div class="switch-button col">
+						<label class="input-group-text" for="light_led_3pl">LEDになっていますか？</label>
+						<div class="button">
+							<input id="light_led_3pl" name="light_led_3pl" type="checkbox" value="1">
+							<div class="knobs">
+								<span>いいえ</span>
+							</div>
+							<div class="layer"></div>
+						</div>
+					</div>
+				</div>
+				<h4 class="question">仕事中空調をどれぐらいつけていますか？</h4>
+				<div class="row">
+				<div class="input-group">
+					<label class="input-group-text" for="ac_time_office">オフィス</label> <input class="form-control" id="ac_time_office" max="24" min="0" name="ac_time_office" pattern="\d*" type="number"> <span class="input-group-text">時間</span>
+				</div>
+			</div>
+				<div class="row">
+				<div class="input-group">
+					<label class="input-group-text" for="ac_time_soho">在宅勤務</label> <input class="form-control" id="ac_time_soho" max="24" min="0" name="ac_time_soho" pattern="\d*" type="number"> <label class="input-group-text" for="ac_time_soho">時間</label>
+				</div>
+			</div>
+				<div class="row">
+				<div class="input-group">
+					<label class="input-group-text" for="ac_time_3pl">サードプレイス</label> <input class="form-control" id="ac_time_3pl" max="24" min="0" name="ac_time_3pl" pattern="\d*" type="number"> <label class="input-group-text" for="ac_time_3pl">時間</label>
+				</div>
+				</div>
+				<div class="input-group">
+					<h4 class="question">何枚、プリントアウトやコピーを取りましたか？</h4><input class="form-control" id="printed_paper" name="printed_paper" min="0" pattern="\d*" type="number"> <label class="input-group-text" for="printed_paper">枚</label>
+				</div>
+				<div class="input-group">
+					<h4 class="question">パソコン作業しましたか？</h4><input class="form-control" id="pc_time" name="pc_time" max="24" min="0" pattern="\d*" type="number"><label class="input-group-text" for="pc_time">時間</label>
+				</div>
+				<div class="input-group">
+					<h4 class="question">飲み物は、「マイカップ派」ですか？</h4>
+					<div class="radio-inline-group">
+						<div class="three-parts">
+							<input id="drink_cup_type1" name="drink_cup_type" type="radio" value="マイカップ派"><label for="drink_cup_type1">マイカップ派</label>
+						</div>
+						<div class="three-parts">
+							<input id="drink_cup_type2" name="drink_cup_type" type="radio" value="紙コップ派"><label for="drink_cup_type2">紙コップ派</label>
+						</div>
+						<div class="three-parts">
+							<input id="drink_cup_type3" name="drink_cup_type" type="radio" value="ペットボトルや缶購入"><label for="drink_cup_type3">ペットボトルや缶購入</label>
+						</div>
+					</div>
+				</div>
+		</section>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <div class="accordion-header transport-header" onclick="toggleAccordion('transportAccordion')">
+            <span class="accordion-title">4/6. 「移動する」について</span>
+            <span class="accordion-icon" id="transportAccordionIcon">▼</span>
+          </div>
+          <div class="accordion-content" id="transportAccordion">
     	<section class="transportation">
-		<h3>移動するについて</h3>
+        		<h3>移動するについて</h3>
 		<div class="row">
 			<div class="input-group col">
 				<h4 class="question">建物内は何回移動するしましたか？</h4><input class="form-control" id="move_floor_number" name="move_floor_number" min="0" pattern="\d*" type="number"><label class="input-group-text" for="move_floor_number">回</label>
@@ -402,7 +417,15 @@
 			</div>
 		</div>
 	</section>
+          </div>
+        </div>
          
+        <div class="accordion-item">
+          <div class="accordion-header eat-header" onclick="toggleAccordion('eatAccordion')">
+            <span class="accordion-title">5/6. 「食べる」について</span>
+            <span class="accordion-icon" id="eatAccordionIcon">▼</span>
+          </div>
+          <div class="accordion-content" id="eatAccordion">
         <section class="breakfast">
             <h3>朝ご飯について</h3>
             <div class="input-group">
@@ -878,6 +901,14 @@
             </div>
   
         </section>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <div class="accordion-header life-header" onclick="toggleAccordion('lifeAccordion')">
+            <span class="accordion-title">6/6. 「暮らす」について</span>
+            <span class="accordion-icon" id="lifeAccordionIcon">▼</span>
+          </div>
+          <div class="accordion-content" id="lifeAccordion">
         <section class="life">
             <h3>暮らすについて</h3>
             <div class="input-group">
@@ -961,8 +992,9 @@
                 </div>
             </div> -->
             
-  
         </section>
+          </div>
+        </div>
 
 <section class="submitArea">
   <div class="btnsubmit">
@@ -1156,6 +1188,13 @@ function toggleAccordion(accordionId) {
   text-align: left;
 }
 
+/* Date accordion header styling */
+.date-header {
+  background-color: #A0A5A6; /* グレー */
+  color: #ffffff; /* 白色 */
+  text-align: left; /* 左揃え */
+}
+
 .accordion-header:hover {
   background-color: #dee2e6;
 }
@@ -1187,8 +1226,8 @@ function toggleAccordion(accordionId) {
 
 /* 時間入力アコーディオン専用 */
 .time-header {
-  background-color: #e9ecef;
-  color: #fff; /* 白文字 */
+  background-color: #A0A5A6; /* グレー */
+  color: #ffffff; /* 白色 */
   text-align: left;
 }
 
@@ -1211,6 +1250,30 @@ function toggleAccordion(accordionId) {
 
 
 
+/* Colored headers for new accordion groups */
+.work-header {
+  background-color: #6786B1; /* ブルー */
+  color: #ffffff; /* 白色 */
+  text-align: left; /* 左揃え */
+}
+
+.transport-header {
+  background-color: #8CC9A3; /* 緑色 */
+  color: #ffffff; /* 白色 */
+  text-align: left; /* 左揃え */
+}
+
+.eat-header {
+  background-color: #F29FC5; /* ピンク */
+  color: #000000; /* 黒色 */
+  text-align: left; /* 左揃え */
+}
+
+.life-header {
+  background-color: #F2E4A0; /* 黄色系 */
+  color: #000000; /* 黒色 */
+  text-align: left; /* 左揃え */
+}
 </style>
     
     

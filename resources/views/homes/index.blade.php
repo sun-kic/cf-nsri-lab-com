@@ -4,7 +4,7 @@
 </x-slot>
     <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.3.3/dist/echarts.min.js"></script>
     <div class="MainContents">
-        <h2>{{$user->name}}さんのCO<sub>2</sub>排出量サマリー</h2>
+        <h2 style="margin-bottom: 0;">{{$user->name}}さんのCO<sub>2</sub>排出量サマリー</h2>
     @php
     if ($carbon){
       $works_carbon = $carbon->accumulated_works_carbon;
@@ -52,7 +52,7 @@
     @endphp
 
 <section id="mainData">
-    <div id="pieChart" style="width: 100%; height: 400px;"></div>
+    <div id="pieChart" style="width: 100%; height: 200px;"></div>
     <section class="myData">
       <div style="display: flex; flex-wrap: nowrap; justify-content: space-between; gap: 10px; padding: 20px 0; overflow-x: auto;">
         @if (is_null($carbon))
@@ -70,13 +70,13 @@
             </div>
         @else
             <div style="flex: 1; min-width: 0; text-align: center; background: #f8f9fa; border-radius: 12px; padding: 20px 10px; ">
-                <div style="font-weight: bold; color: #6786B2; margin-bottom: 15px; font-size: 1.1em;">働く</div>
+                <div style="font-weight: bold; color: white; background-color: #6786B2; margin-bottom: 15px; font-size: 1.1em; padding: 5px 10px; border-radius: 5px;">働く</div>
                 <div style="width: 50px; height: 50px; background: #6786B2; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; color: white; font-weight: bold; font-size: 0.9em;">icon</div>
                 <div style="font-size: 1.5em; color: #333; margin-bottom: 8px; font-weight: bold;">{{$today_works_carbon}}<span style="font-size: 0.8em;">キロ</span></div>
                 <div style="font-size: 0.9em; color: #666;">平均{{number_format($carbon->accumulated_works_carbon/$days_count,2)}}<span style="font-size: 0.8em;">キロ</span></div>
             </div>
             <div style="flex: 1; min-width: 0; text-align: center; background: #f8f9fa; border-radius: 12px; padding: 20px 10px; ">
-                <div style="font-weight: bold; color: #8cc9a3; margin-bottom: 15px; font-size: 1.1em;">移動する</div>
+                <div style="font-weight: bold; color: white; background-color: #8cc9a3; margin-bottom: 15px; font-size: 1.0em; padding: 5px 10px; border-radius: 5px; white-space: nowrap;">移動する</div>
                 <div style="width: 50px; height: 50px; background: #8cc9a3; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; color: white; font-weight: bold; font-size: 0.9em;">icon</div>
                 <div style="font-size: 1.5em; color: #333; margin-bottom: 8px; font-weight: bold;">{{$today_move_carbon}}<span style="font-size: 0.8em;">キロ</span></div>
                 <div style="font-size: 0.9em; color: #666;">平均{{number_format($carbon->accumulated_move_carbon/$days_count,2)}}<span style="font-size: 0.8em;">キロ</span></div>
@@ -84,26 +84,26 @@
         @endif
         @if (is_null($carbon))
             <div style="flex: 1; min-width: 0; text-align: center; background: #f8f9fa; border-radius: 12px; padding: 20px 10px; ">
-                <div style="font-weight: bold; color: #f2e4a0; margin-bottom: 15px; font-size: 1.1em;">暮らす</div>
+                <div style="font-weight: bold; color: black; background-color: #f2e4a0; margin-bottom: 15px; font-size: 1.0em; padding: 5px 10px; border-radius: 5px; white-space: nowrap;">暮らす</div>
                 <div style="width: 50px; height: 50px; background: #f2e4a0; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; color: #333; font-weight: bold; font-size: 0.9em;">icon</div>
                 <div style="font-size: 1.5em; color: #333; margin-bottom: 8px; font-weight: bold;">0<span style="font-size: 0.8em;">キロ</span></div>
                 <div style="font-size: 0.9em; color: #666;">平均0<span style="font-size: 0.8em;">キロ</span></div>
             </div>
             <div style="flex: 1; min-width: 0; text-align: center; background: #f8f9fa; border-radius: 12px; padding: 20px 10px; ">
-                <div style="font-weight: bold; color: #f29fc5; margin-bottom: 15px; font-size: 1.1em;">食べる</div>
+                <div style="font-weight: bold; color: black; background-color: #f29fc5; margin-bottom: 15px; font-size: 1.0em; padding: 5px 10px; border-radius: 5px; white-space: nowrap;">食べる</div>
                 <div style="width: 50px; height: 50px; background: #f29fc5; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; color: white; font-weight: bold; font-size: 0.9em;">icon</div>
                 <div style="font-size: 1.5em; color: #333; margin-bottom: 8px; font-weight: bold;">0<span style="font-size: 0.8em;">キロ</span></div>
                 <div style="font-size: 0.9em; color: #666;">平均0<span style="font-size: 0.8em;">キロ</span></div>
             </div>
         @else
             <div style="flex: 1; min-width: 0; text-align: center; background: #f8f9fa; border-radius: 12px; padding: 20px 10px; ">
-                <div style="font-weight: bold; color: #f2e4a0; margin-bottom: 15px; font-size: 1.1em;">暮らす</div>
+                <div style="font-weight: bold; color: black; background-color: #f2e4a0; margin-bottom: 15px; font-size: 1.0em; padding: 5px 10px; border-radius: 5px; white-space: nowrap;">暮らす</div>
                 <div style="width: 50px; height: 50px; background: #f2e4a0; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; color: #333; font-weight: bold; font-size: 0.9em;">icon</div>
                 <div style="font-size: 1.5em; color: #333; margin-bottom: 8px; font-weight: bold;">{{$today_life_carbon}}<span style="font-size: 0.8em;">キロ</span></div>
                 <div style="font-size: 0.9em; color: #666;">平均{{number_format($carbon->accumulated_life_carbon/$days_count,2)}}<span style="font-size: 0.8em;">キロ</span></div>
             </div>
             <div style="flex: 1; min-width: 0; text-align: center; background: #f8f9fa; border-radius: 12px; padding: 20px 10px; ">
-                <div style="font-weight: bold; color: #f29fc5; margin-bottom: 15px; font-size: 1.1em;">食べる</div>
+                <div style="font-weight: bold; color: black; background-color: #f29fc5; margin-bottom: 15px; font-size: 1.0em; padding: 5px 10px; border-radius: 5px; white-space: nowrap;">食べる</div>
                 <div style="width: 50px; height: 50px; background: #f29fc5; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; color: white; font-weight: bold; font-size: 0.9em;">icon</div>
                 <div style="font-size: 1.5em; color: #333; margin-bottom: 8px; font-weight: bold;">{{$today_foods_carbon}}<span style="font-size: 0.8em;">キロ</span></div>
                 <div style="font-size: 0.9em; color: #666;">平均{{number_format($carbon->accumulated_foods_carbon/$days_count,2)}}<span style="font-size: 0.8em;">キロ</span></div>
@@ -169,15 +169,18 @@
                     title: {
                         text: '今日の合計',
                         subtext: todaysSum + 'キロ\n平均 ' + averageTotal + 'キロ',
-                        left: 'center',
-                        top: 'center',
+                        left: '50%',
+                        top: '50%',
+                        textAlign: 'center',
+                        textVerticalAlign: 'middle',
                         textStyle: {
-                            fontSize: 18,
+                            fontSize: 16,
                             fontWeight: 'bold'
                         },
                         subtextStyle: {
-                            fontSize: 12,
-                            color: '#666'
+                            fontSize: 11,
+                            color: '#666',
+                            lineHeight: 16
                         }
                     },
                     tooltip: {
@@ -193,7 +196,7 @@
                         {
                             name: 'CO2排出量',
                             type: 'pie',
-                            radius: ['40%', '70%'],
+                            radius: ['35%', '60%'],
                             center: ['50%', '45%'],
                             avoidLabelOverlap: false,
                             itemStyle: {

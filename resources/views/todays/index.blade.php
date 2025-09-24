@@ -8,7 +8,7 @@
         <h3 class="carbon-log-subtitle">カーボンログ</h3>
         <!-- Date input field -->
         <div class="accordion-item">
-            <div class="accordion-header" onclick="toggleAccordion('dateAccordion')">
+            <div class="accordion-header date-header" onclick="toggleAccordion('dateAccordion')">
                 <span class="accordion-title">1/6. 日付を入力</span>
                 <span class="accordion-icon" id="dateAccordionIcon">▼</span>
             </div>
@@ -111,6 +111,12 @@
               </div>
             </div>
         
+        <div class="accordion-item">
+          <div class="accordion-header work-header" onclick="toggleAccordion('workAccordion')">
+            <span class="accordion-title">3/6. 「働く」について</span>
+            <span class="accordion-icon" id="workAccordionIcon">▼</span>
+          </div>
+          <div class="accordion-content" id="workAccordion">
         <section class="office-data">
 		<h3>仕事の場所について</h3>
         <div class="input-group">
@@ -166,7 +172,7 @@
                     </div>
                 </div>
             </div>
-	</section>
+    </section>
 
     <section class="work-data">
 		<h3>働くスタイルについて</h3>
@@ -285,6 +291,14 @@
             </div>
         </div>
 	</section>
+    </div>
+        </div>
+        <div class="accordion-item">
+          <div class="accordion-header transport-header" onclick="toggleAccordion('transportAccordion')">
+            <span class="accordion-title">4/6. 「移動する」について</span>
+            <span class="accordion-icon" id="transportAccordionIcon">▼</span>
+          </div>
+          <div class="accordion-content" id="transportAccordion">
     	<section class="transportation">
 		<h3>移動するについて</h3>
 		<div class="row">
@@ -419,9 +433,17 @@
                     </select>
 			</div>
 		</div>
-	</section>
+		</section>
+          </div>
+        </div>
          
-    <section class="breakfast">
+        <div class="accordion-item">
+          <div class="accordion-header eat-header" onclick="toggleAccordion('eatAccordion')">
+            <span class="accordion-title">5/6. 「食べる」について</span>
+            <span class="accordion-icon" id="eatAccordionIcon">▼</span>
+          </div>
+          <div class="accordion-content" id="eatAccordion">
+        <section class="breakfast">
             <h3>朝ご飯について</h3>
             <div class="input-group">
                 <label for="breakfast_image" class="input-group-tex question">
@@ -896,7 +918,15 @@
             </div>
   
         </section>
+          </div>
+        </div>
 
+        <div class="accordion-item">
+          <div class="accordion-header life-header" onclick="toggleAccordion('lifeAccordion')">
+            <span class="accordion-title">6/6. 「暮らす」について</span>
+            <span class="accordion-icon" id="lifeAccordionIcon">▼</span>
+          </div>
+          <div class="accordion-content" id="lifeAccordion">
         <section class="life">
             <h3>暮らすについて</h3>
             <div class="input-group">
@@ -982,6 +1012,8 @@
             
   
         </section>
+          </div>
+        </div>
 
 
   
@@ -1178,6 +1210,13 @@ function toggleAccordion(accordionId) {
   text-align: left;
 }
 
+/* Date accordion header styling */
+.date-header {
+  background-color: #A0A5A6; /* グレー */
+  color: #ffffff; /* 白色 */
+  text-align: left; /* 左揃え */
+}
+
 .accordion-header:hover {
   background-color: #dee2e6;
 }
@@ -1209,8 +1248,8 @@ function toggleAccordion(accordionId) {
 
 /* 時間入力アコーディオン専用 */
 .time-header {
-  background-color: #e9ecef;
-  color: #fff; /* 白文字 */
+  background-color: #A0A5A6; /* グレー */
+  color: #ffffff; /* 白色 */
   text-align: left;
 }
 
@@ -1229,6 +1268,33 @@ function toggleAccordion(accordionId) {
   max-width: 100%;
   margin: 0;
   padding: 0;
+}
+</style>
+
+<style>
+/* Colored headers for new accordion groups */
+.work-header {
+  background-color: #6786B1; /* ブルー */
+  color: #ffffff; /* 白色 */
+  text-align: left; /* 左揃え */
+}
+
+.transport-header {
+  background-color: #8CC9A3; /* 緑色 */
+  color: #ffffff; /* 白色 */
+  text-align: left; /* 左揃え */
+}
+
+.eat-header {
+  background-color: #F29FC5; /* ピンク */
+  color: #000000; /* 黒色 */
+  text-align: left; /* 左揃え */
+}
+
+.life-header {
+  background-color: #F2E4A0; /* 黄色系 */
+  color: #000000; /* 黒色 */
+  text-align: left; /* 左揃え */
 }
 </style>
     
