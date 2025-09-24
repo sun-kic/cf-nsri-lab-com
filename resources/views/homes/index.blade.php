@@ -4,7 +4,7 @@
 </x-slot>
     <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.3.3/dist/echarts.min.js"></script>
     <div class="MainContents">
-        <h2 style="margin-bottom: 0;">{{$user->name}}さんのCO<sub>2</sub>排出量サマリー</h2>
+        <h2 style="margin-bottom: 0;">{{$user->name}}さんの今日のCO<sub>2</sub>排出量サマリー</h2>
     @php
     if ($carbon){
       $works_carbon = $carbon->accumulated_works_carbon;
@@ -52,7 +52,7 @@
     @endphp
 
 <section id="mainData">
-    <div id="pieChart" style="width: 100%; height: 200px;"></div>
+    <div id="pieChart" style="width: 100%; height: 200px; margin-bottom: 0; padding: 0;"></div>
     <section class="myData">
       <div style="display: flex; flex-wrap: nowrap; justify-content: space-between; gap: 10px; padding: 20px 0; overflow-x: auto;">
         @if (is_null($carbon))
@@ -166,21 +166,28 @@
                 
                 pieOption = {
                     color: ['#6786B2', '#8cc9a3', '#f2e4a0', '#f29fc5'],
+                    grid: {
+                        left: 0,
+                        right: 0,
+                        top: 0,
+                        bottom: 0,
+                        containLabel: false
+                    },
                     title: {
                         text: '今日の合計',
                         subtext: todaysSum + 'キロ\n平均 ' + averageTotal + 'キロ',
                         left: '50%',
-                        top: '50%',
+                        top: '40%',
                         textAlign: 'center',
                         textVerticalAlign: 'middle',
                         textStyle: {
-                            fontSize: 16,
+                            fontSize: 12,
                             fontWeight: 'bold'
                         },
                         subtextStyle: {
-                            fontSize: 11,
+                            fontSize: 14,
                             color: '#666',
-                            lineHeight: 16
+                            lineHeight: 14
                         }
                     },
                     tooltip: {
@@ -188,16 +195,14 @@
                         formatter: '{a} <br/>{b}: {c}キロ ({d}%)'
                     },
                     legend: {
-                        orient: 'horizontal',
-                        bottom: '10%',
-                        left: 'center'
+                        show: false
                     },
                     series: [
                         {
                             name: 'CO2排出量',
                             type: 'pie',
-                            radius: ['35%', '60%'],
-                            center: ['50%', '45%'],
+                            radius: ['50%', '70%'],
+                            center: ['50%', '50%'],
                             avoidLabelOverlap: false,
                             itemStyle: {
                                 borderRadius: 10,

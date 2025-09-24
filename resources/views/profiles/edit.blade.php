@@ -11,7 +11,8 @@
       @csrf
       @method('PUT')
       <section id="input-mydata">
-      <h3>あなたについて</h3>
+      <h2>基本データ</h2>
+      <div class="section-header">あなたについて</div>
       <div class="input-group">
         <label for="prefecture" class="form-label input-group-text">あなたがお住まいの都道府県を教えてください。</label>
           <select class="form-select form-control" name="prefecture">
@@ -115,8 +116,9 @@
       <span class="input-group-text">人</span>
       </div>
       </section>
+      <div class="section-header">お住まいについて</div>
       <section id="input-housedata">
-      <h3>お住まいについて</h3>
+      
       <div class="input-group">
         <label for="house_type" class="form-label input-group-text">お住まいの建て方をお答えください。</label>
                     <div class="radio-inline-group">
@@ -151,6 +153,8 @@
         <span class="input-group-text">m&sup2;</span>
       </div>
     </section>
+    <div class="section-header">エネルギーについて</div>
+
     
     <h5>{{ \Carbon\Carbon::now()->subMonth()->format("Y年m月") }}のエネルギー消費量を教えてください</h5>
     <input type="hidden" class="form-control" name="year_month" value={{\Carbon\Carbon::now()->subMonth()}} >

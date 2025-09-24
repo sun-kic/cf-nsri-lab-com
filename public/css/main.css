@@ -160,6 +160,18 @@ a {
   text-align: center;
 }
 
+.section-header {
+  background-color: #A0A5A6;
+  color: white;
+  padding: 15px 0;
+  margin: 20px -50vw 0 -50vw;
+  padding-left: 50vw;
+  padding-right: 50vw;
+  font-size: 4rem;
+  text-align: left;
+}
+
+
 /* Emission Summary */
 .emission-summary {
   background: white;
