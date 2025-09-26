@@ -115,11 +115,9 @@
       <span class="input-group-text">人</span>
     </div>
   </section>
-  <div class="section-header">
-        <h2>お住まいについて</h2>
-  </div>
-  <section id="input-housedata">
   
+  <section id="input-housedata">
+  <div class="section-header">>お住まいについて</div>
   <div class="input-group">
     <label for="house_type" class="form-label input-group-text">お住まいの建て方をお答えください。</label>
                 <div class="radio-inline-group">

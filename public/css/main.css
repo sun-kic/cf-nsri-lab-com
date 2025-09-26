@@ -163,12 +163,17 @@ a {
 .section-header {
   background-color: #A0A5A6;
   color: white;
-  padding: 15px 0;
-  margin: 20px -50vw 0 -50vw;
+  padding: 0px 0;
+  margin: 0px -50vw 0 -50vw;
   padding-left: 50vw;
   padding-right: 50vw;
-  font-size: 4rem;
+  font-size: 3rem;
   text-align: left;
+}
+.powerArea{
+  margin: 0;
+  border: none;
+  padding: 0;
 }
 
 
