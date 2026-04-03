@@ -116,7 +116,6 @@
       <span class="input-group-text">人</span>
       </div>
       </section>
-      
       <section id="input-housedata">
       <div class="section-header">お住まいについて</div>
       <div class="input-group">
@@ -153,13 +152,13 @@
         <span class="input-group-text">m&sup2;</span>
       </div>
     </section>
-    
+
     
     
     <section class="powerArea">
     <div class="section-header">エネルギーについて</div>
-    <h5>{{ \Carbon\Carbon::now()->subMonth()->format("Y年m月") }}のエネルギー消費量を教えてください</h5>
     <input type="hidden" class="form-control" name="year_month" value={{\Carbon\Carbon::now()->subMonth()}} >
+    <h5>{{ \Carbon\Carbon::now()->subMonth()->format("Y年m月") }}のエネルギー消費量を教えてください</h5>
       <h3>電気</h3>
     <div class="input-group">
       <label for="select_box" class="form-label input-group-text">契約した電力会社</label>
