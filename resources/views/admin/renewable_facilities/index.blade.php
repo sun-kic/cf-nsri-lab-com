@@ -27,8 +27,9 @@
               <td>{{ $facility->sort_order }}</td>
               <td>{{ $categoryLabels[$facility->category] ?? $facility->category }}</td>
               <td>{{ $facility->name }}</td>
-              <td>{{ \Illuminate\Support\Str::limit($facility->intro, 80) }}</td>
-              <td>{{ \Illuminate\Support\Str::limit($facility->address, 60) }}</td>
+              {{-- Str::limit は mbstring 必須のため、mbstring 未導入環境でも動くよう CSS で省略 --}}
+              <td class="renewable-admin-ellipsis" title="{{ $facility->intro }}">{{ $facility->intro }}</td>
+              <td class="renewable-admin-ellipsis renewable-admin-ellipsis--narrow" title="{{ $facility->address }}">{{ $facility->address }}</td>
               <td>
                 <a href="{{ route('admin.renewable-facilities.edit', $facility) }}" class="btn btn-sm btn-primary mb-1">編集</a>
                 <form method="POST" action="{{ route('admin.renewable-facilities.destroy', $facility) }}" class="d-inline" onsubmit="return confirm('この施設を削除しますか？');">
@@ -44,4 +45,16 @@
     </div>
   @endif
 </div>
+<style>
+  #admin-renewable-facilities .renewable-admin-ellipsis {
+    max-width: 16rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: middle;
+  }
+  #admin-renewable-facilities .renewable-admin-ellipsis--narrow {
+    max-width: 12rem;
+  }
+</style>
 </x-layout>
