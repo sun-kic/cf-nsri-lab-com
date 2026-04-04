@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Today;
 use App\Models\Carbonsum;
+use App\Models\RenewableFacility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
@@ -47,7 +48,8 @@ class HomeController extends Controller
             'move' => $move,
             'life' => $life,
             'foods' => $foods,
-            'user' => $user
+            'user' => $user,
+            'renewable_facilities_by_category' => RenewableFacility::groupedForHome(),
         ]);
     }
 }

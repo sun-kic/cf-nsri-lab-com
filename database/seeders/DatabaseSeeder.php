@@ -16,6 +16,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $this->call(RenewableFacilitySeeder::class);
+
         // User::factory(10)->create();
         // $user = User::factory()->create([
         //     'name' => 'Test User',

@@ -6,26 +6,6 @@
     <div class="MainContents">
         <h2 style="margin-bottom: 0;">{{$user->name}}さんの今日のCO<sub>2</sub>排出量サマリー</h2>
     @php
-    if ($carbon){
-      $works_carbon = $carbon->accumulated_works_carbon;
-    }else{
-      $works_carbon = 0;
-    }
-    if ($carbon){
-      $move_carbon = $carbon->accumulated_move_carbon;
-    }else{
-      $move_carbon = 0;
-    }
-    if ($carbon){
-      $life_carbon = $carbon->accumulated_life_carbon;
-    }else{
-      $life_carbon = 0;
-    }
-    if ($carbon){
-      $food_carbon = $carbon->accumulated_foods_carbon;
-    }else{
-      $food_carbon = 0;
-    }
     if ($carbon_today){
       $today_works_carbon = $carbon_today->works_carbon;
       $today_move_carbon = $carbon_today->move_carbon;
@@ -39,16 +19,6 @@
       $today_foods_carbon = 0;
       $todays_carbon_sum = 0;
     }
-    
-
-      $carbon_array = [
-        "work" => $works_carbon,
-        "move" => $move_carbon,
-        "life" => $life_carbon,
-        "food" => $food_carbon
-    ];
-      $maxes = array_keys($carbon_array,max($carbon_array));
-      // dd($carbon_array);
     @endphp
 
 <section id="mainData">
@@ -112,31 +82,33 @@
       </div>
     </section>
     </section>
-    <section class="overview">
-      <div class="owl-speech-container">
-        <div class="owl-icon">
-          <img src="/images/owl.png" alt="フクロウ" class="owl-image">
-        </div>
-        <div class="speech-bubble">
-          @if ($maxes[0] == "work")
-            <p>あなたは、<br>仕事系人間です！</p>
-          @endif
-          @if ($maxes[0] == "move")
-            <p>あなたは、<br>動き回る系人間です！</p>
-          @endif
-          @if ($maxes[0] == "life")
-            <p>あなたは、<br>生活第一系人間です！</p>
-          @endif
-          @if ($maxes[0] == "food")
-            <p>あなたは、<br>大食い系人間です！</p>
-          @endif
-        </div>
-      </div>
-    </section>
 
     <section class="region-info">
       <h3>あなたの地域のおすすめ情報</h3>
-      <div id="map" style="width: 100%; height: 400px; border-radius: 10px; margin-top: 15px;"></div>
+
+      <div class="renewable-block">
+        <h4 class="renewable-block__title">再エネを導入している施設</h4>
+        <div class="renewable-tabs" role="tablist" aria-label="再エネ施設のカテゴリ">
+          <button type="button" class="renewable-tab is-active" role="tab" aria-selected="true" aria-controls="renewable-panel" id="tab-cafe" data-category="cafe">カフェ</button>
+          <button type="button" class="renewable-tab" role="tab" aria-selected="false" aria-controls="renewable-panel" id="tab-ski" data-category="ski">スキーリゾート</button>
+          <button type="button" class="renewable-tab" role="tab" aria-selected="false" aria-controls="renewable-panel" id="tab-onsen" data-category="onsen">温泉施設</button>
+          <button type="button" class="renewable-tab" role="tab" aria-selected="false" aria-controls="renewable-panel" id="tab-hotel" data-category="hotel">ホテル</button>
+        </div>
+        <div class="renewable-table-wrap" id="renewable-panel" role="tabpanel" aria-labelledby="tab-cafe">
+          <table class="renewable-table">
+            <thead>
+              <tr>
+                <th scope="col">施設名</th>
+                <th scope="col">施設紹介</th>
+                <th scope="col">アドレス</th>
+              </tr>
+            </thead>
+            <tbody id="renewable-facility-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="map" tabindex="-1" style="width: 100%; height: 400px; border-radius: 10px; margin-top: 20px;"></div>
     </section>
 
 
@@ -237,33 +209,59 @@
               </script>
 
 <script>
-// Google Mapの初期化
+// Google Mapの初期化（施設名リンクから Geocoding で住所検索して表示）
 function initMap() {
-  // 白馬村の座標
   const hakuba = { lat: 36.6981, lng: 137.8617 };
-  
-  // マップの作成
-  const map = new google.maps.Map(document.getElementById("map"), {
+  const mapEl = document.getElementById('map');
+  const map = new google.maps.Map(mapEl, {
     zoom: 13,
     center: hakuba,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   });
-  
-  // マーカーの追加
+  const geocoder = new google.maps.Geocoder();
   const marker = new google.maps.Marker({
     position: hakuba,
     map: map,
-    title: "白馬村"
+    title: '白馬村'
   });
-  
-  // 情報ウィンドウの追加
   const infoWindow = new google.maps.InfoWindow({
-    content: "<h4>白馬村</h4><p>長野県北安曇郡白馬村</p>"
+    content: '<h4 style="margin:0 0 6px;font-size:1rem;">白馬村</h4><p style="margin:0;font-size:0.9rem;">長野県北安曇郡白馬村</p>'
   });
-  
-  marker.addListener("click", () => {
+  marker.addListener('click', function () {
     infoWindow.open(map, marker);
   });
+
+  window.showFacilityFromAddress = function (name, address) {
+    if (!geocoder || !map || !marker) {
+      return;
+    }
+    const query = (address || '').trim();
+    if (!query) {
+      alert('アドレスが登録されていません。');
+      return;
+    }
+    geocoder.geocode({ address: query, region: 'jp' }, function (results, status) {
+      if (status === 'OK' && results[0]) {
+        const loc = results[0].geometry.location;
+        map.setCenter(loc);
+        map.setZoom(16);
+        marker.setPosition(loc);
+        marker.setTitle(name);
+        const esc = function (t) {
+          const d = document.createElement('div');
+          d.textContent = t;
+          return d.innerHTML;
+        };
+        infoWindow.setContent(
+          '<h4 style="margin:0 0 6px;font-size:1rem;">' + esc(name) + '</h4><p style="margin:0;font-size:0.9rem;">' + esc(address) + '</p>'
+        );
+        infoWindow.open(map, marker);
+        mapEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      } else {
+        alert('住所から位置を特定できませんでした。アドレスの表記を確認するか、Google Cloud で Geocoding API が有効か・APIキーの制限を確認してください。\nステータス: ' + status);
+      }
+    });
+  };
 }
 
 // Google Maps APIの読み込み
@@ -277,125 +275,86 @@ function loadGoogleMaps() {
 
 // ページ読み込み後にGoogle Mapsを読み込み
 document.addEventListener('DOMContentLoaded', loadGoogleMaps);
+
+// 再エネ施設タブ（地図の上のブロック）— データはDBから渡す
+(function () {
+  const renewableFacilities = @json($renewable_facilities_by_category);
+
+  function escapeHtml(s) {
+    const div = document.createElement('div');
+    div.textContent = s;
+    return div.innerHTML;
+  }
+
+  function escapeAttr(s) {
+    return String(s)
+      .replace(/&/g, '&amp;')
+      .replace(/"/g, '&quot;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+  }
+
+  function renderCategory(category) {
+    const tbody = document.getElementById('renewable-facility-tbody');
+    if (!tbody) return;
+    const rows = renewableFacilities[category] || [];
+    tbody.innerHTML = rows
+      .map(function (r) {
+        return (
+          '<tr><td><a href="#map" class="renewable-facility-link" data-name="' +
+          escapeAttr(r.name) +
+          '" data-address="' +
+          escapeAttr(r.address) +
+          '">' +
+          escapeHtml(r.name) +
+          '</a></td><td>' +
+          escapeHtml(r.intro) +
+          '</td><td>' +
+          escapeHtml(r.address) +
+          '</td></tr>'
+        );
+      })
+      .join('');
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    const tbody = document.getElementById('renewable-facility-tbody');
+    if (tbody) {
+      tbody.addEventListener('click', function (e) {
+        const link = e.target.closest('a.renewable-facility-link');
+        if (!link) return;
+        e.preventDefault();
+        const name = link.getAttribute('data-name') || '';
+        const address = link.getAttribute('data-address') || '';
+        if (typeof window.showFacilityFromAddress === 'function') {
+          window.showFacilityFromAddress(name, address);
+        } else {
+          alert('地図の読み込みが完了するまで少し待ってから、もう一度クリックしてください。');
+        }
+      });
+    }
+
+    const tabs = document.querySelectorAll('.renewable-tab');
+    const panel = document.getElementById('renewable-panel');
+    tabs.forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        const cat = tab.getAttribute('data-category');
+        tabs.forEach(function (t) {
+          t.classList.remove('is-active');
+          t.setAttribute('aria-selected', 'false');
+        });
+        tab.classList.add('is-active');
+        tab.setAttribute('aria-selected', 'true');
+        if (panel) panel.setAttribute('aria-labelledby', tab.id);
+        renderCategory(cat);
+      });
+    });
+    renderCategory('cafe');
+  });
+})();
 </script>
 
 <style>
-.owl-speech-container {
-  display: flex !important;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
-  padding: 20px;
-  background: #f8f9fa;
-  border-radius: 15px;
-  margin: 20px auto;
-  flex-direction: row !important;
-  flex-wrap: nowrap;
-  max-width: 600px;
-  width: 100%;
-}
-
-.owl-icon {
-  flex-shrink: 0;
-  order: 1;
-}
-
-.owl-image {
-  width: 80px;
-  height: 80px;
-  object-fit: contain;
-}
-
-.speech-bubble {
-  position: relative;
-  background: #d0e2be;
-  border-radius: 15px;
-  padding: 15px 20px;
-  flex: 1;
-  max-width: 300px;
-  order: 2;
-}
-
-.speech-bubble::before {
-  content: '';
-  position: absolute;
-  left: -12px !important;
-  top: 50% !important;
-  transform: translateY(-50%) !important;
-  width: 0;
-  height: 0;
-  border-top: 10px solid transparent !important;
-  border-bottom: 10px solid transparent !important;
-  border-right: 12px solid #d0e2be !important;
-  border-left: none !important;
-}
-
-.speech-bubble p {
-  margin: 0;
-  color: #333;
-  font-size: 1.1em;
-  font-weight: bold;
-  text-align: left;
-  line-height: 1.4;
-}
-
-@media (max-width: 768px) {
-  .owl-speech-container {
-    flex-direction: column;
-    text-align: center;
-    gap: 10px;
-    padding: 15px;
-    justify-content: center;
-    align-items: center;
-    margin: 20px auto;
-    max-width: 90%;
-  }
-  
-  .owl-image {
-    width: 60px;
-    height: 60px;
-  }
-  
-  .speech-bubble {
-    max-width: 100%;
-    margin-top: 10px;
-  }
-  
-  .speech-bubble::before {
-    left: -12px !important;
-    top: 50% !important;
-    transform: translateY(-50%) !important;
-    border-top: 10px solid transparent !important;
-    border-bottom: 10px solid transparent !important;
-    border-right: 12px solid #d0e2be !important;
-    border-left: none !important;
-  }
-  
-  .speech-bubble p {
-    font-size: 1em;
-  }
-}
-
-@media (max-width: 480px) {
-  .owl-speech-container {
-    max-width: 95%;
-    padding: 10px;
-  }
-  
-  .owl-image {
-    width: 50px;
-    height: 50px;
-  }
-  
-  .speech-bubble {
-    padding: 12px 15px;
-  }
-  
-  .speech-bubble p {
-    font-size: 0.9em;
-  }
-}
-
 .region-info {
   margin: 30px 0;
   padding: 20px;
@@ -409,6 +368,106 @@ document.addEventListener('DOMContentLoaded', loadGoogleMaps);
   font-weight: bold;
   margin-bottom: 15px;
   text-align: center;
+}
+
+.renewable-block {
+  background: #fff;
+  border-radius: 15px;
+  padding: 20px 18px 22px;
+  margin-bottom: 4px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+.renewable-block__title {
+  margin: 0 0 16px;
+  font-size: 1.1em;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+}
+
+.renewable-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 6px;
+  background: #e8eaed;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  justify-content: center;
+}
+
+.renewable-tab {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: transparent;
+  color: #444;
+  font-size: 0.88em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
+}
+
+.renewable-tab:hover {
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.renewable-tab.is-active {
+  background: #fff;
+  border-color: #d0d4db;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  color: #222;
+}
+
+.renewable-table-wrap {
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid #e0e4e8;
+  -webkit-overflow-scrolling: touch;
+}
+
+.renewable-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92em;
+  background: #fff;
+}
+
+.renewable-table th,
+.renewable-table td {
+  padding: 12px 14px;
+  text-align: left;
+  border-bottom: 1px solid #e8eaed;
+  vertical-align: top;
+}
+
+.renewable-table th {
+  background: #f4f6f8;
+  color: #333;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.renewable-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.renewable-table td:nth-child(2) {
+  color: #555;
+}
+
+a.renewable-facility-link {
+  color: #2d6a4f;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+a.renewable-facility-link:hover {
+  color: #1b4332;
 }
 
 #map {
@@ -425,6 +484,24 @@ document.addEventListener('DOMContentLoaded', loadGoogleMaps);
   .region-info h3 {
     font-size: 1.2em;
   }
+
+  .renewable-block {
+    padding: 16px 12px 18px;
+  }
+
+  .renewable-tabs {
+    flex-direction: column;
+  }
+
+  .renewable-tab {
+    width: 100%;
+  }
+
+  .renewable-table th,
+  .renewable-table td {
+    padding: 10px 10px;
+    font-size: 0.88em;
+  }
   
   #map {
     height: 300px;
@@ -439,6 +516,10 @@ document.addEventListener('DOMContentLoaded', loadGoogleMaps);
   
   .region-info h3 {
     font-size: 1.1em;
+  }
+
+  .renewable-block__title {
+    font-size: 1em;
   }
   
   #map {

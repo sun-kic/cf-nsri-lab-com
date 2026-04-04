@@ -8,6 +8,7 @@ use App\Http\Controllers\TodayController;
 use App\Http\Controllers\KaizenController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\Admin\RenewableFacilityController;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
@@ -41,6 +42,10 @@ Route::post('/kaizen/update',  [KaizenController::class, 'store'])->middleware('
 Route::get('/data', [DataController::class, 'index'])->middleware('auth');
 
 Route::get('/about', [AboutController::class, 'index'])->middleware('auth');
+
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::resource('renewable-facilities', RenewableFacilityController::class)->except(['show']);
+});
 
 Route::get('/profile',  [ProfileController::class, 'index'])->middleware('auth');
 Route::post('/profile/store',  [ProfileController::class, 'store'])->middleware('auth');

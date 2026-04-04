@@ -34,6 +34,9 @@
         <li><a href="/kaizen" class="icon_kaizen">Kaizen Action</a></li>
         <li><a href="/data" class="icon_data">DATA</a></li>
         <li><a href="/about" class="icon_about">ABOUT</a></li>
+        @if(auth()->user()->is_admin)
+        <li><a href="{{ route('admin.renewable-facilities.index') }}" class="icon_data">再エネ施設管理</a></li>
+        @endif
         <li>
           <form class="inline" method="POST" action="/logout">
             @csrf
