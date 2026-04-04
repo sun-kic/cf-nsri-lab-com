@@ -33,6 +33,7 @@
                 <span class="accordion-icon" id="timeAccordionIcon">▼</span>
               </div>
               <div class="accordion-content time-accordion-content" id="timeAccordion">
+            @include('todays.partials.time-schedule-presets')
             <section class="today-works">
             <div class="scroll">
                   <dl>
